@@ -10,7 +10,7 @@ RUN /bin/bash -c "source ~/.bashrc"
 
 # Install pip
 RUN apt-get install python3-pip -y
-RUN python -m pip install --upgrade pip
+RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install flask 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
