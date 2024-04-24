@@ -1,16 +1,15 @@
-# 使用 Python 3.9 的官方映像作為基礎
-FROM python:3.9
-
-# 安裝 Flask 和相依套件
-RUN pip install flask
-
-# 安裝 openssh-server 以提供 SSH 服務
-RUN apt-get update && apt-get install -y openssh-server && \
-    mkdir /var/run/sshd && \
-    echo 'test:test1234' | chpasswd
-
-# 複製 Flask 應用程式到容器中
-COPY app.py /app.py
-
-# 啟動 Flask 和 SSH 服務
-CMD ["/bin/bash", "-c", "/usr/sbin/sshd && python3 /app.py"]
+FROM ubuntu:16.04
+RUN pip3 install --upgrade pip
+RUN pip3 install flask
+RUN apt-get update && apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:screencast' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT [ "python3" ]
+CMD ["app.py" ]
