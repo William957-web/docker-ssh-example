@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-RUN apt-get update && apt-get install python3 -y && apt-get install python3-pip -y && python3 -m pip install flask 
+RUN apt-get update && apt-get install python3=3.7 -y && apt-get install python3-pip -y && python3 -m pip install flask 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo 'root:screencast' | chpasswd
