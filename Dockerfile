@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 RUN apt-get update && apt install software-properties-common -y
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install python3.7 -y
