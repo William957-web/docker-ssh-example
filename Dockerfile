@@ -1,5 +1,17 @@
 FROM ubuntu:16.04
-RUN apt-get update && apt-get install python3=3.7 -y && apt-get install python3-pip -y && python3 -m pip install flask 
+RUN apt install software-properties-common -y
+RUN add-apt-repository ppa:deadsnakes/ppa
+RUN apt install python3.7 -y
+
+# Make python 3.7 the default
+RUN echo "alias python=python3.7" >> ~/.bashrc
+RUN export PATH=${PATH}:/usr/bin/python3.7
+RUN /bin/bash -c "source ~/.bashrc"
+
+# Install pip
+RUN apt install python3-pip -y
+RUN python -m pip install --upgrade pip
+RUN python3 -m pip install flask 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo 'root:screencast' | chpasswd
