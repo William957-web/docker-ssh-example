@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
-RUN cp app.py /app && apt-get update && apt-get install python3 -y && apt-get install python3-pip -y
-RUN python3 -m pip install flask 
+COPY app.py /app
+RUN apt-get update && apt-get install python3 -y && apt-get install python3-pip -y && python3 -m pip install flask 
 RUN apt-get update && apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo 'root:screencast' | chpasswd
